@@ -54,19 +54,24 @@ class AgenticGame:
 
         def player_node(state: GameState) -> GameState:
             # Create a log of what other players chose last round, excluding current player
-            previous_decisions = "\n".join(
+            previous_decisions1 = "\n".join(
                 f"Player {pid}: {state['player_decisions'].get(pid, [])[-1] if state['player_decisions'].get(pid, []) else 'No previous decision'}"
                 for pid in self.players if pid != player_id  # Only show other players' decisions
             )
+            # Shows all previous decisions, excluding current player.
+            previous_decisions2 = "\n".join(
+            f"Player {pid}: {state['player_decisions'].get(pid, [])} "
+            for pid in self.players if pid != player_id
+            )
 
-            print(previous_decisions)
+            print(previous_decisions2)
 
             prompt = player.prompt_template.format(
                 num_players=len(self.players),
                 game_pot=state['game_pot'],
                 stages_left=state['iterations'] - state['stage_number'],
                 profile=player.profile,
-                previous_decisions=previous_decisions 
+                previous_decisions=previous_decisions2 
             )
 
             decision = player.llm.invoke(prompt).content

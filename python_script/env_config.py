@@ -13,7 +13,7 @@ def load_api_key():
         return api_key
     
     # Try to load from .env file
-    env_path = Path(__file__).parent.parent / '.env'
+    env_path = Path(__file__).parent / '.env'
     print(f"Looking for .env file at: {env_path}")
     
     if env_path.exists():
